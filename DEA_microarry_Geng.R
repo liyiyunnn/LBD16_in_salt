@@ -51,11 +51,9 @@ tmp = by(expset,
          annotation$locus,
          function(x) rownames(x)[which.max(rowMeans(x))])
 probe = as.character(tmp)
-dim(expset)
 expset = expset[rownames(expset) %in% probe,] 
-dim(expset)
 rownames(expset)= annotation[match(rownames(expset),annotation$array_element_name),2]
-head(expset)
+
 
 ##grouping
 pData(data.gcrma)$treatment <- grouplist<- gl(8, 3, length = length(data.raw), labels = c("MS_1hr", "MS_48hr", 
@@ -93,18 +91,15 @@ data.fit <- function(data.sub, exp.sub){
 
 deg.all <- function(data.fit.eb, layer){
   DEG <- topTable(data.fit.eb, adjust.method="fdr", coef=1:6, n=Inf, sort.by = "B", lfc = 1, p.value = 0.001)
-  print(dim(DEG))
   write.table(DEG, file = paste("(eachtimepoint-MS)DEG-",layer, "-topTable.txt",sep = ""), row.names = T, col.names = T, sep = "\t", na = "NA")
   return(DEG)
 }
 
 usedec <- function(data.fit.eb,layer){
   deg.dec <- decideTests(data.fit.eb, method = "separate", p.value = 0.001, lfc = 1)
-  print(summary(deg.dec))
   de.common <- which(deg.dec[,1]!="0" | deg.dec[,2]!="0" |deg.dec[,3]!="0"|deg.dec[,4]!="0"|deg.dec[,5]!="0"|deg.dec[,6]!="0")
   deg.dec <- cbind(rownames(deg.dec),deg.dec)
   write.table(deg.dec, file = paste("(eachtimepoint-MS)DEG-",layer, "-dec.txt",sep = ""), row.names = F, col.names = T, sep = "\t", na = "NA")
-  print(paste("There are", length(de.common), "DEGs"))
   deg.listdec <- rownames(deg.dec)[de.common]
   return(deg.listdec)
 }
