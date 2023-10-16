@@ -2,7 +2,7 @@
 
 """
 Author: Yiyun Li
-Task: filter the network
+Task: filter the network to get LBD16-associated interactions
 """
 
 from sys import argv
@@ -40,14 +40,14 @@ def get_2_regulator(gene, network):
 
 def get_output(record, filename):
     with open(filename, 'w') as f:
-        f.write("regulator\ttarget\n")
+        f.write("regulator\target\n")
         for i in record:
             f.write("{}\t{}\n".format(i[0], i[1]))
     f.close()
 
 def get_2_output(gene, record, filename):
     with open(filename, 'w') as f:
-        f.write("regulator\ttarget\tlayer\n")
+        f.write("regulator\target\tlayer\n")
         for i in record:
             if gene in i[1]:
                 i.append(1)
