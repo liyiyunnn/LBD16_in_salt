@@ -1,16 +1,13 @@
 # Author: Jasper Lamers (adapted from Maria Chiara)
 # Affiliation: Wageningen University & Research
 
-setwd("/Users/liyiyun/Library/CloudStorage/OneDrive-WageningenUniversity&Research/VICI-ENW projects/Data analysis/YanxiaRNAseq2020/20220517_RNAseq_DEA_1timepoint_2treatment_2genotype")
-
 library(ggplot2)
 library(dplyr)
 library(pheatmap)
 library(ggrepel)
 
 #IF
-rm(list = ls())
-gProfiler <- read.csv("/Users/liyiyun/Library/CloudStorage/OneDrive-WageningenUniversity&Research/VICI-ENW projects/Data analysis/YanxiaRNAseq2020/20220517_RNAseq_DEA_1timepoint_2treatment_2genotype/saltspecific_6h_go.csv")
+gProfiler <- read.csv("saltspecific_6h_go.csv")
 gProfiler$GeneRatio <- gProfiler$intersection_size/gProfiler$term_size
 gProfiler$log_Size <- log10(gProfiler$term_size)
 gProfiler$negative_log10_of_adjusted_p_value <- -log10(gProfiler$p_value)
@@ -34,14 +31,3 @@ DP <- ggplot(gProfiler, aes(x=log_Size, y=negative_log10_of_adjusted_p_value)) +
 
 ggsave(filename = "salt-specific_6h_DotPlot_new_202309.tiff", plot = DP, dpi=400, width =  18, height = 16 , limitsize = FALSE,units = "cm")  
 
-
-
-   # DP <- GOenriched %>% ggplot(aes(x = cluster , y = reorder(code, new_order))) +
-#   geom_point(aes(size = GeneRatio, color = AverageL2FC)) +
-#   theme_bw(base_size = 7) +
-#   scale_colour_gradient2(name="Log2FoldChange",low="#0072b2", high ="#d55e00",midpoint=0, mid="#ffffff", limits=c(-0.7,0.7),labels=c(-0.7,-0.35,0,0.35,0.7),breaks=c(-0.7,-0.35,0,0.35,0.7)) + scale_y_discrete(labels=~empty_DF_All[match(.x, empty_DF_All$code),"term"]) +
-#   theme(legend.key.size = unit(0.35, 'cm'), axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), text = element_text(size = 7)) + scale_size(name="Gene ratio", range=c(0.1,3.5), breaks = seq(0.1, 1.1, 0.3), limits = c(0, 1)) +
-#   ylab(NULL) + xlab("Treatment or mutant") + guides(color=guide_colourbar(title.vjust=3))+ scale_x_discrete(limits=c("CaCl2","cop1-4","etr1-1","moca1","snrk2.2/2.3"), drop=F) + facet_grid(measure ~ ., scales = "free_y", space = "free_y")
-# 
-# ggsave(filename = "All_v2.pdf", plot = DP, dpi=400, width = 11, height = 15, unit="cm", limitsize = FALSE)
-# DP <- NULL
