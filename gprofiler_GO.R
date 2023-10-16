@@ -1,9 +1,8 @@
-### salt specific 20220517
+install.packages("gprofiler2")
 library(gprofiler2)
-setwd("/Users/liyiyun/Desktop/lbd16-1/20220517_RNAseq_DEA_1timepoint_2treatment_2genotype/gprofiler")
 
-salt <- read.csv("/Users/liyiyun/Library/CloudStorage/OneDrive-WageningenUniversity&Research/VICI-ENW projects/Data analysis/YanxiaRNAseq2020/20220517_RNAseq_DEA_1timepoint_2treatment_2genotype/Genotype_comparison/Genotypelbd16.1.ConditionNaCl_130mM_6hrs/Genotypelbd16.1.ConditionNaCl_130mM_6hrs_signDEGs_DESeq2.csv")
-con <- read.csv("/Users/liyiyun/Library/CloudStorage/OneDrive-WageningenUniversity&Research/VICI-ENW projects/Data analysis/YanxiaRNAseq2020/20220517_RNAseq_DEA_1timepoint_2treatment_2genotype/Genotype_comparison/Genotype_lbd16.1_vs_Col.0/Genotype_lbd16.1_vs_Col.0_signDEGs_DESeq2.csv")
+salt <- read.csv("/Genotype_comparison/Genotypelbd16.1.ConditionNaCl_130mM_6hrs/Genotypelbd16.1.ConditionNaCl_130mM_6hrs_signDEGs_DESeq2.csv")
+con <- read.csv("/Genotype_comparison/Genotype_lbd16.1_vs_Col.0/Genotype_lbd16.1_vs_Col.0_signDEGs_DESeq2.csv")
 
 salt.spec <- setdiff(salt$GeneID,con$GeneID)
 
