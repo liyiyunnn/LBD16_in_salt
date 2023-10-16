@@ -12,7 +12,7 @@ output=argv[2]
 library(tidyr)
 
 for (i in 1:100) {
-  path = paste("/Users/liyiyun/Desktop/network-grn/input_94/stele_salt/run_LBD",i,".txt",sep="")
+  path = paste("/network-grn/run_LBD",i,".txt",sep="")
   var = paste("run",i,sep = "")
   run = as.data.frame(read.table(path, sep = "\t",header = T)[1:20,])
   run = unite(run, "Interaction", regulator, target, sep = " - ", remove = T)
@@ -34,4 +34,4 @@ re <- re[order(-re[,2]),]
 colnames(re) <- c("Interaction","Times")
 re <- cbind(re, "Freq" = paste(re$Times/100*100,"%",sep = ''))
 
-write.table(re, "/Users/liyiyun/Desktop/network-grn/input_94/stele_salt/LBD_result.txt", col.names = T, row.names = F, sep = "\t", quote = F)
+write.table(re, "/network-grn/LBD_result.txt", col.names = T, row.names = F, sep = "\t", quote = F)
