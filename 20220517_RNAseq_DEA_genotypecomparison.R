@@ -6,11 +6,10 @@
 
 library(stringr)
 library("clusterProfiler")
-setwd("/Users/liyiyun/Desktop/lbd16-1/20220517_RNAseq_DEA_1timepoint_2treatment_2genotype")
 
 #Find Salmon files and add file name to a new csv
-setup <- read.csv("/Users/liyiyun/Desktop/lbd16-1/0_Input/RNAseq.csv", header = TRUE)
-setup$filename <- list.files("/Users/liyiyun/Desktop/lbd16-1/0_Input/Salmon", recursive = TRUE, include.dirs = T, pattern = ".sf")
+setup <- read.csv("/0_Input/RNAseq.csv", header = TRUE)
+setup$filename <- list.files("/0_Input/Salmon", recursive = TRUE, include.dirs = T, pattern = ".sf")
 setup$Experiment <- ifelse(grepl("W", setup$Sample), "96", "Root")
 write.csv(setup, "RNAseq2.csv")#, row.names=FALSE)
 
@@ -18,7 +17,7 @@ write.csv(setup, "RNAseq2.csv")#, row.names=FALSE)
 if (!exists("gff")){
   library(tibble)
   library(rtracklayer)
-  gff_file = file.path("/Users/liyiyun/Desktop/lbd16-1/Arabidopsis_thaliana.TAIR10.42.gff3")
+  gff_file = file.path("/lbd16-1/Arabidopsis_thaliana.TAIR10.42.gff3")
   gff = import(gff_file)
 }
 
@@ -46,7 +45,7 @@ sampleTable <- cbind(sampleTable, Condition = paste(sampleTable$Treatment, sampl
 samples <- read.table("RNAseq2.csv", header=TRUE, sep= ",")
 
 #Full name of file and checks whether it exists
-files <- file.path("/Users/liyiyun/Desktop/lbd16-1/0_Input/Salmon", comparison_summary$filename)
+files <- file.path("/0_Input/Salmon", comparison_summary$filename)
 files
 names(files) <- paste(comparison_summary$Treatment, comparison_summary$Genotype,  comparison_summary$Timepoint, sep="_")
 all(file.exists(files))
@@ -167,15 +166,6 @@ for(TR in resultsNames(dds)[-1]) {
     go.downdeg <- enrichGO(down.deg$GeneID , OrgDb = "org.At.tair.db", keyType="TAIR", ont="BP", pAdjustMethod = "BH", qvalueCutoff = 0.05,readable      = T)
     go.downdeg <- clusterProfiler::simplify(go.downdeg, cutoff=0.7, by='p.adjust', select_fun = min)
     write.csv(go.downdeg, paste(TR_subfolder,"/",TR,"_signDEGs_DESeq2_downregulated_GO_readable.csv", sep=""))
-    
-    # go.deg <- enrichGO(res.table$GeneID , OrgDb = "org.At.tair.db", keyType="TAIR", ont="ALL", pAdjustMethod = "BH", qvalueCutoff = 0.05)
-    # write.csv(go.deg, paste(TR_subfolder,"/",TR,"_signDEGs_DESeq2_GO_ALL.csv", sep=""))
-    # 
-    # go.updeg <- enrichGO(up.deg$GeneID , OrgDb = "org.At.tair.db", keyType="TAIR", ont="ALL", pAdjustMethod = "BH", qvalueCutoff = 0.05)
-    # write.csv(go.updeg, paste(TR_subfolder,"/",TR,"_signDEGs_DESeq2_upregulated_GO_ALL.csv", sep=""))
-    # 
-    # go.downdeg <- enrichGO(down.deg$GeneID, OrgDb = "org.At.tair.db", keyType="TAIR", ont="ALL", pAdjustMethod = "BH", qvalueCutoff = 0.05)
-    # write.csv(go.downdeg, paste(TR_subfolder,"/",TR,"_signDEGs_DESeq2_downregulated_GO_ALL.csv", sep=""))
   }
   
   #Volcano plot
@@ -244,32 +234,6 @@ ggsave(paste(Folder_name,"/",Folder_name,"_PCA_all.jpeg", sep=""), plot = last_p
        scale = 1, width = 15, height = 15, 
        dpi = 500, limitsize = TRUE)
 
-save(rld,dds, ddsTxi, sampleTable,
-     file = "run_20220426.RData")
-
-#summary
-first_file_name <- list.files("Genotype_comparison")[c(8:19)]       
-dir <- paste("./Genotype_comparison/",first_file_name,sep = "")
-n <- length(dir)     
-
-n_sub <- rep(0,n)   
-n_sub <- as.data.frame(n_sub)    
-n_sub <- t(n_sub)     
-
-data <- read.csv("./Genotype_comparison/Genotype_ds2.3_vs_Col.0/Genotype_ds2.3_vs_Col.0_signDEGs_DESeq2_downregulated.csv")
-for (i in 1:n) {   
-  b=list.files(dir[i])
-  b<- b[grep("_signDEGs_DESeq2",b)]
-  n_sub[i]=length(b)    
-  for (j in 1:n_sub[i]) {
-    file=paste(dir[i],"/",b[j],sep = "")
-    new_data <- read.csv(file)
-    print(sub(dir[i],"",file))
-    print(dim(new_data))
-    # new_data <- new_data[-1,]   
-    # names(new_data) <- NULL   
-  }
-}
 
 ##salt specific
 salt.6 <-read.csv("Genotype_comparison/Genotypelbd16.1.ConditionNaCl_130mM_6hrs/Genotypelbd16.1.ConditionNaCl_130mM_6hrs_signDEGs_DESeq2.csv",row.names = 1)
