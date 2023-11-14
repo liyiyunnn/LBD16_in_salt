@@ -1,4 +1,6 @@
-####BiocManager::install("DESeq2")
+#Author: Yiyun Li
+
+#BiocManager::install("DESeq2")
 #BiocManager::install("BSgenome.Athaliana.TAIR.TAIR9", version = "3.8")
 #BiocManager::install("tximport")
 #BiocManager::install("SummarizedExperiment")
@@ -8,7 +10,7 @@ library(stringr)
 library("clusterProfiler")
 
 #Find Salmon files and add file name to a new csv
-setup <- read.csv("/0_Input/RNAseq.csv", header = TRUE)
+setup <- read.csv("RNAseq.csv", header = TRUE)
 setup$filename <- list.files("/0_Input/Salmon", recursive = TRUE, include.dirs = T, pattern = ".sf")
 setup$Experiment <- ifelse(grepl("W", setup$Sample), "96", "Root")
 write.csv(setup, "RNAseq2.csv")#, row.names=FALSE)
@@ -39,11 +41,6 @@ sampleTable$Treatment <- sub(" ","",sampleTable$Treatment)
 
 sampleTable <- cbind(sampleTable, Condition = paste(sampleTable$Treatment, sampleTable$Timepoint, sep="_"))
 
-
-
-#Find all samples
-samples <- read.table("RNAseq2.csv", header=TRUE, sep= ",")
-
 #Full name of file and checks whether it exists
 files <- file.path("/0_Input/Salmon", comparison_summary$filename)
 files
@@ -65,16 +62,13 @@ library(DESeq2)
 ddsTxi <- DESeqDataSetFromTximport(txi, sampleTable, design = ~ Genotype + Condition + Genotype:Condition)
 ddsTxi$Genotype <- relevel(ddsTxi$Genotype, "Col-0")
 ddsTxi$Condition <- relevel(ddsTxi$Condition, "Control_6hrs")
-dds <- dds[rowSums(counts(dds)) > 10,]
 dds <- DESeq(ddsTxi)
+dds <- dds[rowSums(counts(dds)) > 10,]
 Folder_name = "Genotype_comparison"
 dir.create(Folder_name, showWarnings = FALSE)
 write.csv(txi_counts, file=paste(Folder_name,"/","counts_sum_before_DESeq2.csv", sep=""))
 write.csv(sampleTable, file=paste(Folder_name,"/","SampleTable.csv", sep=""))
 
-#topGene <- rownames(resSig)[which.max(resSig$log2FoldChange)]
-#data <- plotCounts(dds, gene=topGene, intgroup=c("Treatment"), returnData=TRUE)
-#ggplot(data, aes(x=Treatment, y=count, fill=Treatment)) + ggtitle(topGene) + scale_y_log10() + geom_dotplot(binaxis="y", stackdir="center")
 
 #Dispention graph
 jpeg(paste(Folder_name,"/",Folder_name,"_Dispention.jpeg", sep=""),quality=100,width = 500, height = 500, pointsize=10)
@@ -118,7 +112,6 @@ for(TR in resultsNames(dds)[-1]) {
   write.csv(res, paste(TR_subfolder,"/",TR,"_DEGs_DESeq2.csv", sep=""))
   
   res.table <-res[complete.cases(res[,c(2,6)]),]
-  #  res.table <- res.table[abs(res.table$log2FoldChange)>=1,]
   res.table <- res.table[res.table$padj<0.05,]
   write.csv(res.table, paste(TR_subfolder,"/",TR,"_signDEGs_DESeq2.csv", sep=""))
   
