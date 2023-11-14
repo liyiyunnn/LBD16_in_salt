@@ -1,3 +1,6 @@
+# Author: Yiyun Li
+# Affiliation: Wageningen University & Research
+
 install.packages("gprofiler2")
 library(gprofiler2)
 
