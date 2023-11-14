@@ -1,3 +1,6 @@
+# Author: Yanxia Zhang
+# Affiliation: Wageningen University & Research
+
 library(tidyverse)
 library(emmeans)
 
