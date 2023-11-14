@@ -1,4 +1,5 @@
-#Author: Yiyun Li
+# Author: Yiyun Li
+# Affiliation: Wageningen University & Research
 
 #BiocManager::install("DESeq2")
 #BiocManager::install("BSgenome.Athaliana.TAIR.TAIR9", version = "3.8")
