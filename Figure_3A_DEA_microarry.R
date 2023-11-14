@@ -1,3 +1,6 @@
+# Author: Yiyun Li
+# Affiliation: Wageningen University & Research
+
 # Differential expression analysis
 # remove probes with multiple geneID
 # use affy_ATH1_array_elements-2010-12-20.txt table for annotation
