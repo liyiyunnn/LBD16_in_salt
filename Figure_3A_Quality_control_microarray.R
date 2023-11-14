@@ -1,3 +1,5 @@
+# Author: Yiyun Li
+# Affiliation: Wageningen University & Research
 
 #### Quality control 
 ##PCA
