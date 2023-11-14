@@ -1,3 +1,6 @@
+# Author: Yiyun Li
+# Affiliation: Wageningen University & Research
+
 # Calculate Freq. of predicted interaction in 100 runs
 argv <- commandArgs(T)
 
