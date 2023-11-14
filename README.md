@@ -1,7 +1,7 @@
 # LBD16_in_salt
 
 ## Introduction
-This repository contains custom & addapted scripts used for the transcriptomic analysis of "Root branching in salt requires auxin-independent modulation of LBD16 function"; https://doi.org/10.1101/2023.04.25.538210
+This repository contains custom & adapted scripts used for the transcriptomic analysis of "Root branching in salt requires auxin-independent modulation of LBD16 function"; https://doi.org/10.1101/2023.04.25.538210
 
 ## Scripts contained in this repository
 1. Quality_control_microarray.R; Script for quality control of microarray data
