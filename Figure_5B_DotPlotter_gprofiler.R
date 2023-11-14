@@ -1,4 +1,4 @@
-# Author: Jasper Lamers (adapted from Maria Chiara)
+# Author: Jasper Lamers 
 # Affiliation: Wageningen University & Research
 
 library(ggplot2)
