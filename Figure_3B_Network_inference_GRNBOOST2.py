@@ -1,3 +1,7 @@
+"""
+Author: Yiyun Li
+Task: filter the network to get LBD16-associated interactions
+"""
 
 ## adapted from http://arboreto.readthedocs.io.
 
